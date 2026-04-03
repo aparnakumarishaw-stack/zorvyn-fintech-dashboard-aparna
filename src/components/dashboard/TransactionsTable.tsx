@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, ArrowUpDown, Trash2, Pencil, AlertCircle, FileX } from 'lucide-react';
+import { Search, Plus, ArrowUpDown, Trash2, Pencil, AlertCircle, FileX, Download, RotateCcw } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,6 +39,29 @@ export function TransactionsTable() {
     }
   };
 
+  const resetFilters = () => {
+    setFilter({ search: '', category: 'all', sortBy: 'date', sortOrder: 'desc' });
+  };
+
+  const exportCSV = useCallback(() => {
+    const headers = ['Date', 'Description', 'Amount', 'Category', 'Type'];
+    const rows = filtered.map((t) => [
+      t.date,
+      `"${t.description}"`,
+      t.type === 'income' ? t.amount.toFixed(2) : `-${t.amount.toFixed(2)}`,
+      t.category,
+      t.type,
+    ]);
+    const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `transactions_${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }, [filtered]);
+
   return (
     <Card>
       <CardHeader>
@@ -68,6 +91,9 @@ export function TransactionsTable() {
                 ))}
               </SelectContent>
             </Select>
+            <Button variant="outline" size="sm" onClick={exportCSV} className="gap-1">
+              <Download className="h-4 w-4" /> CSV
+            </Button>
             {role === 'Admin' && (
               <Button size="sm" onClick={() => { setEditingId(null); setModalOpen(true); }} className="gap-1">
                 <Plus className="h-4 w-4" /> Add
@@ -86,11 +112,16 @@ export function TransactionsTable() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex flex-col items-center justify-center py-12 text-muted-foreground"
+            className="flex flex-col items-center justify-center py-16 text-muted-foreground"
           >
-            <FileX className="h-12 w-12 mb-3" />
-            <p className="text-lg font-medium">No transactions found</p>
-            <p className="text-sm">Try adjusting your filters</p>
+            <div className="rounded-full bg-muted p-4 mb-4">
+              <FileX className="h-10 w-10" />
+            </div>
+            <p className="text-lg font-semibold mb-1">No transactions found</p>
+            <p className="text-sm mb-4">Try adjusting your search or filters</p>
+            <Button variant="outline" size="sm" onClick={resetFilters} className="gap-1.5">
+              <RotateCcw className="h-3.5 w-3.5" /> Reset Filters
+            </Button>
           </motion.div>
         ) : (
           <div className="overflow-x-auto">
