@@ -100,11 +100,6 @@ export const useFinanceStore = create<FinanceState>()(
     }),
     {
       name: 'finance-dashboard',
-      onRehydrate: () => (state) => {
-        if (state?.darkMode) {
-          document.documentElement.classList.add('dark');
-        }
-      },
     }
   )
 );
