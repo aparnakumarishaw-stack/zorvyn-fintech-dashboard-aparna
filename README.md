@@ -1,11 +1,4 @@
-#Smart Finance Dashboard | Zorvyn Internship Assignment
-A professional-grade, highly interactive finance management interface built for the Zorvyn Frontend Developer Intern screening. This project demonstrates modern React patterns, state management, and role-based access control.
-
-=> Live Demo: [Insert Your Vercel/Lovable Link Here]
-
-=> Candidate: Aparna Kumari Shaw
-
-+>Reference ID: TE41A4Z3
+Full-stack real-time fintech analytics dashboard built with React.js, Express, & MongoDB.
 # LIVE DEMO :https://zorvyn-fintech-dashboard-aparna.vercel.app/
 
 # Key Features
@@ -68,17 +61,5 @@ npm run dev
 -Engineering Insights (AI/ML Perspective)
 As a Computer Science student specializing in AI/ML at Graphic Era Hill University, I approached this dashboard as more than just a UI. I implemented a Forecasting Logic that mimics a basic predictive model, providing users with actionable intelligence rather than just historical data.
 
-Final Submission Checklist
-:)Functional Admin/Viewer Role Toggle
-
-:) Responsive Mobile View
-
-:) Search & Filtering Logic
-
-:) Dark Mode Support
-
-:) CSV Export Feature
-
-:)Dynamic Insights Calculation
 
 Contact: aparna.kumari.shaw@gmail.com
